@@ -8,24 +8,40 @@
     <script src="./js/chat-app.js"></script>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <script
+      src="https://kit.fontawesome.com/77e6d61b62.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-storage.js"></script>
   </head>
 
   <body>
     <h1>チャットアプリ</h1>
     <!-- コンテンツ表示画面 -->
     <div>
-      <!-- 各場所にidを設定しましょう -->
       <div>
         <input type="text" id="uname" placeholder="名前を入力してください" />
-        <label class="my-file-input"><input type="file" id="imgUpload" />今はどんな表情？？</label>
       </div>
+      <div id="face">
+        <label id="file-input"
+          ><input type="file" id="imgUpload" />今はどんな表情？？</label
+        >
+        <div id="preview"></div>
+      </div>
+
       <div id="in">
         <div>
-          <textarea id="text" placeholder="文章を入力してください"></textarea>
+          <textarea id="text" placeholder="文章を添えてみて！"></textarea>
         </div>
         <!-- 送信 -->
-        <button id="send">
-          <img id="aicn" src="./img/send.png" alt="" />
+        <button>
+          <div id="send">
+            <i
+              class="fa-solid fa-paper-plane"
+              style="color: rgba(51, 112, 211)"
+            ></i>
+          </div>
         </button>
       </div>
       <!-- メッセージの表示 -->
@@ -34,82 +50,96 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
-      import {
-        getDatabase,
-        ref,
-        push,
-        set,
-        onChildAdded,
-        remove,
-        onChildRemoved,
-      } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+            import {
+              getDatabase,
+              ref,
+              push,
+              set,
+              onChildAdded,
+              remove,
+              onChildRemoved,
+            } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 
-      // Your web app's Firebase configuration
-      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-      const firebaseConfig = {
-        
-      };
+            // Your web app's Firebase configuration
+            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+            const firebaseConfig = {
+              apiKey: "AIzaSyA9svzqhEc3vZbg57SlCEOtIl2Gp8Wz_Jg",
+              authDomain: "chat-app-23828.firebaseapp.com",
+              databaseURL: "https://chat-app-23828-default-rtdb.firebaseio.com",
+              projectId: "chat-app-23828",
+              storageBucket: "chat-app-23828.appspot.com",
+              messagingSenderId: "827529191412",
+              appId: "1:827529191412:web:691e6e58d726b6712ca3a1",
+              measurementId: "G-38JKYSLCBG",
+            };
 
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const db = getDatabase(app); //RealtimeDBに接続
-      const dbRef = ref(db, "chat"); //RealtimeDB内の"chat"を使う
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app); //RealtimeDBに接続
+            const dbRef = ref(db, "chat"); //RealtimeDB内の"chat"を使う
+            const storage = getStorage(firebaseApp);
 
-      $("#send").on("click", function () {
-        const uname = $("#uname").val();
-        const text = $("#text").val();
+            $("#send").on("click", function () {
+              const img = $("#imgUpload")[0].files[0];
+              const uname = $("#uname").val();
+              const text = $("#text").val();
 
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = today.getMonth() + 1;
-        const date = today.getDate();
-        const hour = today.getHours();
-        const min = today.getMinutes();
-        const time = month + "/" + date + " " + hour + ":" + min;
+              const today = new Date();
+              const year = today.getFullYear();
+              const month = today.getMonth() + 1;
+              const date = today.getDate();
+              const hour = today.getHours();
+              const min = today.getMinutes();
+              const time = month + "/" + date + " " + hour + ":" + min;
 
-        // 表示の確認をしてみましょう
-        console.log(uname, "名前");
-        console.log(text, "テキスト");
-        console.log(time, "時刻");
+              // 表示の確認をしてみましょう
+              console.log(img, "写真");
+              console.log(uname, "名前");
+              console.log(text, "テキスト");
+              console.log(time, "時刻");
 
-        // 送信のデータの塊を作る
-        const msg = {
-          time: time,
-          uname: $("#uname").val(),
-          text: $("#text").val(),
-        };
-        // firebaseにpush＝送る準備をする
-        const newPostRef = push(dbRef);
-        set(newPostRef, msg);
+              // 送信のデータの塊を作る
+              const msg = {
+                time: time,
+                uname: $("#uname").val(),
+                text: $("#text").val(),
+                img: $("#imgUpload").val(),
+              };
+              // firebaseにpush＝送る準備をする
+              const newPostRef = push(dbRef);
+              set(newPostRef, msg);
 
-        $("#uname").val("");
-        $("#text").val("");
+              $("#imgUpload").val("");
+              $("#uname").val("");
+              $("#text").val("");
 
-        onChildAdded(dbRef, function (data) {
-          const msg = data.val();
-          console.log(msg, "データの中身");
-          const key = data.key;
-          console.log(key, "鍵の名前");
+              onChildAdded(dbRef, function (data) {
+                const msg = data.val();
+                console.log(msg, "データの中身");
+                const key = data.key;
+                console.log(key, "鍵の名前");
 
-          // htmlとして埋め込みたいのでテンプレートリテラルを使う
+                // htmlとして埋め込みたいのでテンプレートリテラルを使う
 
-          let html = `
-                <div class="ms">
-                 <div class="time">
-                     <p>${msg.time}</p>
-                 </div>
-                 <div class="msg">
-                     <P>${msg.uname}</P>
-                     <P>${msg.text}</P>
-                 </div>
-                </div>
-                `;
-
-          $("#output").append(html);
-        });
-      });
+                let html = `
+                      <div class="ms">
+                       <div class="time">
+                           <p>${msg.time}</p>
+                       </div>
+                       <div class="msg">
+                           <P>${msg.uname}</P>
+                           <P>${msg.text}</P>
+                       </div>
+                       <div class="time">
+                           <p>${msg.img}</p>
+                       </div>
+                      </div>
+                      `;
+                $("#output").append(html);
+              });
+            });
     </script>
     <footer></footer>
   </body>

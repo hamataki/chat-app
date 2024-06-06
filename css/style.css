@@ -10,17 +10,31 @@ input {
   display: block;
   margin: 0 auto 50px;
 }
+
+#preview{
+  margin: 0 auto;
+  justify-content: center;
+  display: flex;
+  margin-bottom: 5px;
+}
+img {
+  width: 10%;
+  height: 10%;
+} 
 #in{
   display: flex;
   margin: 0 auto 50px;
   justify-content: center
 }
+
 textarea {
   width: 400PX;
   height: 50px;
   padding: 10px;
   display: block;
   resize: none;
+  border-radius: 10px;
+  color: black;
 }
 
 button {
@@ -31,12 +45,8 @@ button {
   margin-top: auto;
   margin-left: 4px;
   border-radius:  10px;
-  border-color: transparent;
   background-color: white;
-}
-#aicn{
-  width: 90%;
-  height: 90%;
+  border-color: rgb(51 112 211 / 0.6);
 }
 
 #output {
@@ -92,33 +102,35 @@ button {
 label {
   margin-left: 3em;
 }
-.my-file-input {
-  display: inline-block;
+#file-input {
+  display: block;
   margin: 0 auto;
+  margin-bottom: 10px;
   padding: 5px;
   width: 200px;
-  justify-content: center;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   font-size: 14px;
   text-overflow: ellipsis;
   background-color: #55f;
+  border-radius: 8px;
   color: white;
   box-shadow: #888 2px 2px 1px;
   cursor: pointer;
 }
-.my-file-input:hover {
+#file-input:hover {
   background-color: #88f;
 }
-.my-file-input:hover {
+#file-input:hover {
   background-color: #88f;
 }
-.my-file-input:active {
+#file-input:active {
   box-shadow: #888 1px 1px 1px;
   position: relative;
   top: 1px;
   left: 1px;
 }
-.my-file-input input {
+#file-input input {
   display: none;
 }
