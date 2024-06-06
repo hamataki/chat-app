@@ -50,21 +50,75 @@ button {
   background-color: turquoise;
 }
 
-.msg:nth-child(even){
-  margin-left: auto;
-  width: 200px;
-  padding: 8px;
-  white-space: normal;
-  word-wrap: break-word;/* 吹き出し内で自動で改行 */
-  background-color: rgb(247, 253, 253);
-  border-radius: 30px 30px 0px 30px;
-}
-.msg:nth-child(odd) {
+.time{
   margin-right: auto;
   width: 200px;
   padding: 8px;
-  white-space: normal;
+}
+.msg{
+  margin-right: auto;
+  margin-bottom: 15px;
   word-wrap: break-word;/* 吹き出し内で自動で改行 */
+  position: relative;
+  width: 200px;
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-radius: 30px;
   background-color: rgb(247, 253, 253);
-  border-radius: 30px 30px 30px 0px;
+  color: black;
+}
+
+/* 吹き出しを可愛く */
+.msg:before,
+.msg:after {
+  position: absolute;
+  border-radius: 30%;
+  background-color: rgb(247, 253, 253);
+  content: "";
+}
+.msg:before {
+  top: 103%;
+  left: 40px;
+  height: 10px;
+  width: 10px;
+}
+.msg:after {
+  top: 120%;
+  left: 50px;
+  height: 6px;
+  width: 6px;
+}
+
+/* 入力画像の文字を変更 */
+label {
+  margin-left: 3em;
+}
+.my-file-input {
+  display: inline-block;
+  margin: 0 auto;
+  padding: 5px;
+  width: 200px;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  background-color: #55f;
+  color: white;
+  box-shadow: #888 2px 2px 1px;
+  cursor: pointer;
+}
+.my-file-input:hover {
+  background-color: #88f;
+}
+.my-file-input:hover {
+  background-color: #88f;
+}
+.my-file-input:active {
+  box-shadow: #888 1px 1px 1px;
+  position: relative;
+  top: 1px;
+  left: 1px;
+}
+.my-file-input input {
+  display: none;
 }
