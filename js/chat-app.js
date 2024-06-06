@@ -1,3 +1,4 @@
+//ファイルアップロードの表示を変える
 $(document).ready(function () {
   $("#imgUpload").on("change", function (e) {
     $(this)
@@ -7,6 +8,7 @@ $(document).ready(function () {
       );
   });
 });
+//画像のプレビュー
 $(document).on("change", "#imgUpload", function () {
   let elem = this; //操作された要素を取得
   let fileReader = new FileReader(); //ファイルを読み取るオブジェクトを生成
@@ -15,6 +17,5 @@ $(document).on("change", "#imgUpload", function () {
     //ファイル読み取りが完了したら
     let imgTag = `<img src='${fileReader.result}'>`; //img要素を生成
     $("#preview").html(imgTag); //画像をプレビュー
-    
   };
 });
