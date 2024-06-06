@@ -6,7 +6,7 @@ chat_app
 リアルタイムで感情がわかるチャットアプリ
 
 ③DEMO
-デプロイしている場合はURLを記入（任意） https://hamataki.github.io/player-database/
+デプロイしている場合はURLを記入（任意） https://github.com/hamataki/chat-app
 
 ④作ったアプリケーション用のIDまたはPasswordがある場合
 ID: 〇〇〇〇〇〇〇〇
