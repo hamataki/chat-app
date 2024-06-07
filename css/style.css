@@ -58,17 +58,19 @@ button {
   margin: 0 auto;
   border-radius: 8px;
   padding: 10px;
+  line-height: 20px;
   background-color: turquoise;
 }
 
 .time{
   margin-right: auto;
   width: 200px;
-  padding: 8px;
+  padding: 4px;
+  margin-top: 10px;
 }
 .msg{
   margin-right: auto;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   word-wrap: break-word;/* 吹き出し内で自動で改行 */
   position: relative;
   width: 200px;
