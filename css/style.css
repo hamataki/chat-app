@@ -52,7 +52,8 @@ button {
 #output {
   width: 500px;
   display: block;
-  height: 500px;
+  min-height: 550px;
+  height: 100%;
   border: 1px solid #cccccc;
   margin: 0 auto;
   border-radius: 8px;
@@ -133,4 +134,11 @@ label {
 }
 #file-input input {
   display: none;
+}
+
+.remove{
+  cursor: pointer;
+}
+.update{
+  cursor: pointer;
 }

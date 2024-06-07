@@ -12,8 +12,6 @@
       src="https://kit.fontawesome.com/77e6d61b62.js"
       crossorigin="anonymous"
     ></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-storage.js"></script>
   </head>
 
   <body>
@@ -50,96 +48,121 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module">
-            // Import the functions you need from the SDKs you need
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
-            import {
-              getDatabase,
-              ref,
-              push,
-              set,
-              onChildAdded,
-              remove,
-              onChildRemoved,
-            } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        push,
+        set,
+        onChildAdded,
+        remove,
+        onChildRemoved,
+        onChildChanged,
+        update,
+      } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 
-            // Your web app's Firebase configuration
-            // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-            const firebaseConfig = {
-              apiKey: "AIzaSyA9svzqhEc3vZbg57SlCEOtIl2Gp8Wz_Jg",
-              authDomain: "chat-app-23828.firebaseapp.com",
-              databaseURL: "https://chat-app-23828-default-rtdb.firebaseio.com",
-              projectId: "chat-app-23828",
-              storageBucket: "chat-app-23828.appspot.com",
-              messagingSenderId: "827529191412",
-              appId: "1:827529191412:web:691e6e58d726b6712ca3a1",
-              measurementId: "G-38JKYSLCBG",
-            };
+      // import {
+      //   getStorage,
+      //   ref as storageRef,
+      // } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-storage.js";
 
-            // Initialize Firebase
-            const app = initializeApp(firebaseConfig);
-            const db = getDatabase(app); //RealtimeDBに接続
-            const dbRef = ref(db, "chat"); //RealtimeDB内の"chat"を使う
-            const storage = getStorage(firebaseApp);
+      // Your web app's Firebase configuration
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        
+      };
 
-            $("#send").on("click", function () {
-              const img = $("#imgUpload")[0].files[0];
-              const uname = $("#uname").val();
-              const text = $("#text").val();
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app); //RealtimeDBに接続
+      const dbRef = ref(db, "chat"); //RealtimeDB内の"chat"を使う
+      // const storage = getStorage(firebaseApp);
 
-              const today = new Date();
-              const year = today.getFullYear();
-              const month = today.getMonth() + 1;
-              const date = today.getDate();
-              const hour = today.getHours();
-              const min = today.getMinutes();
-              const time = month + "/" + date + " " + hour + ":" + min;
+      $("#send").on("click", function () {
+        const img = $("#imgUpload")[0].files[0];
+        const uname = $("#uname").val();
+        const text = $("#text").val();
 
-              // 表示の確認をしてみましょう
-              console.log(img, "写真");
-              console.log(uname, "名前");
-              console.log(text, "テキスト");
-              console.log(time, "時刻");
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth() + 1;
+        const date = today.getDate();
+        const hour = today.getHours();
+        const min = today.getMinutes();
+        const time = month + "/" + date + " " + hour + ":" + min;
 
-              // 送信のデータの塊を作る
-              const msg = {
-                time: time,
-                uname: $("#uname").val(),
-                text: $("#text").val(),
-                img: $("#imgUpload").val(),
-              };
-              // firebaseにpush＝送る準備をする
-              const newPostRef = push(dbRef);
-              set(newPostRef, msg);
+        // 表示の確認をしてみましょう
+        console.log(img, "写真");
+        console.log(uname, "名前");
+        console.log(text, "テキスト");
+        console.log(time, "時刻");
 
-              $("#imgUpload").val("");
-              $("#uname").val("");
-              $("#text").val("");
+        // 送信のデータの塊を作る
+        const msg = {
+          time: time,
+          uname: $("#uname").val(),
+          text: $("#text").val(),
+          img: $("#imgUpload").val(),
+        };
+        // firebaseにpush＝送る準備をする
+        const newPostRef = push(dbRef);
+        set(newPostRef, msg);
 
-              onChildAdded(dbRef, function (data) {
-                const msg = data.val();
-                console.log(msg, "データの中身");
-                const key = data.key;
-                console.log(key, "鍵の名前");
+        $("#imgUpload").val("");
+        $("#uname").val("");
+        $("#text").val("");
 
-                // htmlとして埋め込みたいのでテンプレートリテラルを使う
+        onChildAdded(dbRef, function (data) {
+          const msg = data.val();
+          console.log(msg, "データの中身");
+          const key = data.key;
+          console.log(key, "鍵の名前");
 
-                let html = `
-                      <div class="ms">
-                       <div class="time">
-                           <p>${msg.time}</p>
-                       </div>
-                       <div class="msg">
-                           <P>${msg.uname}</P>
-                           <P>${msg.text}</P>
-                       </div>
-                       <div class="time">
-                           <p>${msg.img}</p>
-                       </div>
-                      </div>
-                      `;
-                $("#output").append(html);
-              });
-            });
+          // htmlとして埋め込みたいのでテンプレートリテラルを使う
+          let html = `
+                            <div id="${key}">
+                             <div class="time">${msg.time}</div>
+                             <div class="msg">
+                                 ${msg.uname}<br>
+                                 <span contentEditable="true" id="${key}_update">${msg.text}</span>
+                                 <span class="remove" data-key="${key}">🚮</span>
+                                 <span class="update" data-key="${key}">🆙</span>
+                             </div>
+                             <div class="img">${msg.img}</div>
+                            </div>
+                            `;
+          $("#output").prepend(html);
+        });
+      });
+
+      // 削除イベント
+      onChildRemoved(dbRef, (data) => {
+        $("#" + data.key).remove(); //対象を削除
+      });
+      // 更新イベント
+      onChildChanged(dbRef, (data) => {
+        $("#" + data.key + "_update").html(data.val().text);
+        $("#" + data.key + "_update").fadeOut(800).fadeIn(800);
+      });
+
+      
+      //削除イベント
+      $("#output").on("click", ".remove", function () {
+        const key = $(this).attr("data-key");
+        const remove_item = ref(db, "chat/" + key);
+        remove(remove_item); //Firebaseデータ削除関数
+      });
+
+      //更新イベント
+      $("#output").on("click", ".update", function () {
+        const key = $(this).attr("data-key");
+        update(ref(db, "chat/" + key), {
+          text: $("#" + key + "_update").html(),
+        });
+      });
+
+      
     </script>
     <footer></footer>
   </body>
