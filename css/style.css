@@ -1,16 +1,29 @@
+body {
+  min-width: 250px;
+}
+
 h1 {
   text-align: center;
   margin: 50px 0;
-  font-size: 20px;
+  font-size: 25px;
 }
 
 input {
-  width: 445px;
   padding: 10px;
-  display: block;
-  margin: 0 auto 50px;
 }
 
+#put{
+  min-width: 250px;
+  display: flex;
+  margin: 0 auto 50px;
+  justify-content: center
+}
+#uname{
+  max-width: 445px;
+  width: 100%;
+  display: block;
+  justify-content: center;
+}
 #preview{
   margin: 0 auto;
   justify-content: center;
@@ -22,6 +35,7 @@ img {
   height: 10%;
 } 
 #in{
+  min-width: 250px;
   display: flex;
   margin: 0 auto 50px;
   justify-content: center
@@ -50,7 +64,8 @@ button {
 }
 
 #output {
-  width: 500px;
+  min-width: 250px;
+  max-width: 445px;
   display: block;
   min-height: 550px;
   height: 100%;
@@ -100,7 +115,6 @@ button {
   height: 6px;
   width: 6px;
 }
-
 /* 入力画像の文字を変更 */
 label {
   margin-left: 3em;
@@ -137,7 +151,10 @@ label {
 #file-input input {
   display: none;
 }
-
+.photo{
+  margin-top: 4px;
+  width: 20%;
+}
 .remove{
   cursor: pointer;
 }
